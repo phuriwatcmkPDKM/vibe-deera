@@ -1,0 +1,69 @@
+<div class="login-container">
+  <div class="login-card">
+    <h2>Mock Jira Login</h2>
+    <div class="mock-notice">
+      <strong>Demo Mode:</strong> Enter any valid-looking credentials to login
+    </div>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      
+      <div class="form-group">
+        <label for="jiraUrl">Jira URL</label>
+        <input 
+          type="url" 
+          id="jiraUrl" 
+          formControlName="jiraUrl"
+          placeholder="https://your-domain.atlassian.net"
+          class="form-input"
+          [class.error]="jiraUrl?.invalid && jiraUrl?.touched">
+        <div class="error-message" *ngIf="jiraUrl?.invalid && jiraUrl?.touched">
+          <span *ngIf="jiraUrl?.errors?.['required']">Jira URL is required</span>
+          <span *ngIf="jiraUrl?.errors?.['pattern']">Please enter a valid URL</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input 
+          type="email" 
+          id="email" 
+          formControlName="email"
+          placeholder="your-email@example.com"
+          class="form-input"
+          [class.error]="email?.invalid && email?.touched">
+        <div class="error-message" *ngIf="email?.invalid && email?.touched">
+          <span *ngIf="email?.errors?.['required']">Email is required</span>
+          <span *ngIf="email?.errors?.['email']">Please enter a valid email</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="apiToken">API Token</label>
+        <input 
+          type="password" 
+          id="apiToken" 
+          formControlName="apiToken"
+          placeholder="Your Jira API token"
+          class="form-input"
+          [class.error]="apiToken?.invalid && apiToken?.touched">
+        <div class="error-message" *ngIf="apiToken?.invalid && apiToken?.touched">
+          <span *ngIf="apiToken?.errors?.['required']">API Token is required</span>
+        </div>
+        <small class="help-text">
+          Demo mode: Any non-empty token will work
+        </small>
+      </div>
+
+      <div class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <button 
+        type="submit" 
+        class="login-button"
+        [disabled]="loginForm.invalid || isLoading">
+        <span *ngIf="isLoading">Connecting...</span>
+        <span *ngIf="!isLoading">Mock Login</span>
+      </button>
+    </form>
+  </div>
+</div>
